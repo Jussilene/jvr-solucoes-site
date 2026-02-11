@@ -1,39 +1,36 @@
 import emailjs from "@emailjs/browser"
 
-export type LeadPayload = {
-  formName: "Interesse (Modal)" | "Projeto (Sob Medida)" | "Contato (Mensagem)"
-  subject: string
+type LeadPayload = {
+  title: string
   name: string
   email: string
   phone?: string
   company?: string
   message?: string
-  productTitle?: string
+  source?: string
 }
 
-const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
-const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
-const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+const SERVICE_ID = "service_jqlqzbj"
+const TEMPLATE_ID = "template_ldt5hzd"
+const PUBLIC_KEY = "R16rlcgN0FAYIs1Xq"
+const EMAIL_TO = "jussilene.valim@gmail.com"
 
 export async function sendLeadEmail(payload: LeadPayload) {
-  if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
-    throw new Error(
-      "EmailJS não configurado. Verifique VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID e VITE_EMAILJS_PUBLIC_KEY no .env."
-    )
+  const params = {
+    title: payload.title || "",
+    nome: payload.name || "",
+    name: payload.name || "",
+    email: payload.email || "",
+    phone: payload.phone || "",
+    empresa: payload.company || "",
+    company: payload.company || "",
+    message: payload.message || "",
+    source: payload.source || "",
+    email_to: EMAIL_TO,
+    to_email: EMAIL_TO,
   }
 
-  const templateParams = {
-    form_name: payload.formName,
-    subject: payload.subject,
-    from_name: payload.name,
-    from_email: payload.email,
-    phone: payload.phone || "-",
-    company: payload.company || "-",
-    message: payload.message || "-",
-    product_title: payload.productTitle || "-",
-  }
-
-  return emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, {
+  return emailjs.send(SERVICE_ID, TEMPLATE_ID, params, {
     publicKey: PUBLIC_KEY,
   })
 }
