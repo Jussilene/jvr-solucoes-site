@@ -1,6 +1,6 @@
 import emailjs from "@emailjs/browser"
 
-type LeadPayload = {
+export type LeadPayload = {
   title: string
   name: string
   email: string

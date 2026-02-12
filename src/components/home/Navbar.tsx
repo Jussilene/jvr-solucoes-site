@@ -1,22 +1,26 @@
-import { useEffect, useState } from "react";
-import logo from "@/assets/brand/logo.png";
+import { useEffect, useState } from "react"
 
 const links = [
   { label: "Produtos", href: "#produtos" },
   { label: "Personalizada", href: "#personalizada" },
   { label: "Sobre", href: "#sobre" },
   { label: "Contato", href: "#contato" },
-];
+]
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled] = useState(false)
+
+  // ✅ usa a MESMA logo que já funciona no HERO
+  const base = import.meta.env.BASE_URL || "/"
+  const logoPrimary = `${base}brand/logo-jvr.png`
+  const logoFallback = `${base}brand/logo.png`
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    const onScroll = () => setScrolled(window.scrollY > 20)
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => window.removeEventListener("scroll", onScroll)
+  }, [])
 
   return (
     <header
@@ -30,16 +34,30 @@ export default function Navbar() {
       <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between gap-3">
         <a href="#inicio" className="flex items-center gap-3">
           <img
-            src={logo}
+            src={logoPrimary}
             alt="JVR"
-            className="h-7 w-7 object-contain"
+            className="h-7 w-auto object-contain"
             loading="eager"
+            draggable={false}
+            onError={(e) => {
+              ;(e.currentTarget as HTMLImageElement).src = logoFallback
+            }}
           />
           <div className="leading-tight">
-            <div className={["font-semibold tracking-tight", scrolled ? "text-[#0b1a2a]" : "text-white"].join(" ")}>
+            <div
+              className={[
+                "font-semibold tracking-tight",
+                scrolled ? "text-[#0b1a2a]" : "text-white",
+              ].join(" ")}
+            >
               JVR
             </div>
-            <div className={["text-xs", scrolled ? "text-black/50" : "text-white/70"].join(" ")}>
+            <div
+              className={[
+                "text-xs",
+                scrolled ? "text-black/50" : "text-white/70",
+              ].join(" ")}
+            >
               Soluções Inteligentes
             </div>
           </div>
@@ -52,7 +70,9 @@ export default function Navbar() {
               href={l.href}
               className={[
                 "text-sm transition",
-                scrolled ? "text-black/60 hover:text-black" : "text-white/75 hover:text-white",
+                scrolled
+                  ? "text-black/60 hover:text-black"
+                  : "text-white/75 hover:text-white",
               ].join(" ")}
             >
               {l.label}
@@ -68,5 +88,5 @@ export default function Navbar() {
         </a>
       </div>
     </header>
-  );
+  )
 }

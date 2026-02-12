@@ -1,7 +1,9 @@
-import heroLogo from "@/assets/brand/hero-logo.png";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react"
 
 export default function HeroSection() {
+  // ✅ Imagem vinda de /public/brand (compatível com base do GH Pages)
+  const heroLogo = import.meta.env.BASE_URL + "brand/hero-logo.png"
+
   return (
     <section id="inicio" className="relative overflow-hidden">
       {/* fundo (gradiente + grid) */}
@@ -81,6 +83,10 @@ export default function HeroSection() {
                   alt="JVR Soluções Inteligentes"
                   className="w-full h-[240px] object-contain"
                   loading="eager"
+                  onError={(e) => {
+                    // fallback visual (pra você identificar rápido se o caminho falhar online)
+                    ;(e.currentTarget as HTMLImageElement).style.display = "none"
+                  }}
                 />
               </div>
               <div className="pointer-events-none absolute inset-0 rounded-3xl shadow-[0_0_0_1px_rgba(255,255,255,0.06)]" />
@@ -89,5 +95,5 @@ export default function HeroSection() {
         </div>
       </div>
     </section>
-  );
+  )
 }

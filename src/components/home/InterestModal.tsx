@@ -45,24 +45,21 @@ export default function InterestModal({ open, onClose, productTitle }: Props) {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
     if (!name.trim() || !email.trim()) return
 
     try {
       setLoading(true)
 
       await sendLeadEmail({
-        formName: "Interesse (Modal)",
-        subject: `Novo interesse: ${productTitle || "Produto"}`,
+        title: `Novo interesse: ${productTitle || "Produto"}`,
         name: name.trim(),
         email: email.trim(),
-        phone: phone.trim(),
-        company: company.trim(),
-        message: message.trim(),
-        productTitle: productTitle?.trim(),
+        phone: phone.trim() || undefined,
+        company: company.trim() || undefined,
+        message: message.trim() || undefined,
+        source: "Interesse (Modal)",
       })
 
-      // limpa e fecha
       setName("")
       setEmail("")
       setPhone("")
@@ -80,14 +77,12 @@ export default function InterestModal({ open, onClose, productTitle }: Props) {
 
   return (
     <div className="fixed inset-0 z-[80]">
-      {/* overlay escuro */}
       <div
         className="absolute inset-0 bg-black/70"
         onClick={onClose}
         aria-hidden="true"
       />
 
-      {/* modal */}
       <div className="absolute inset-0 flex items-center justify-center px-4">
         <div className="w-full max-w-[760px] rounded-2xl bg-white shadow-2xl">
           <div className="relative px-10 pt-10">
@@ -148,8 +143,7 @@ export default function InterestModal({ open, onClose, productTitle }: Props) {
               <button
                 type="submit"
                 disabled={loading}
-                className="mt-7 flex h-14 w-full items-center justify-center gap-3 rounded-xl bg-[hsl(var(--brand))] text-base font-semibold text-slate-900 shadow-sm disabled:opacity-70"
-                // ✅ sem hover mudar cor (igual você pediu)
+                className="mt-7 flex h-14 w-full items-center justify-center gap-3 rounded-xl text-base font-semibold text-slate-900 shadow-sm disabled:opacity-70"
                 style={{ backgroundColor: "hsl(var(--brand))" }}
               >
                 {loading ? "Enviando..." : "Confirmar Interesse"}

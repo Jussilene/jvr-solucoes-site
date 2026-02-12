@@ -19,6 +19,11 @@ export default function Layout() {
   const isHome = location.pathname === "/"
   const [headerOnDark, setHeaderOnDark] = useState(true)
 
+  // ✅ usa a logo da pasta /public/brand (funciona em DEV e GitHub Pages)
+  const base = import.meta.env.BASE_URL || "/"
+  const logoPrimary = `${base}brand/logo-jvr.png`
+  const logoFallback = `${base}brand/logo.png`
+
   // Detecta se está no topo/hero para manter header com estilo "Base44"
   useEffect(() => {
     if (!isHome) {
@@ -69,9 +74,9 @@ export default function Layout() {
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3">
-            {/* Ajuste o nome do arquivo abaixo para o seu logo real */}
+            {/* ✅ logo corrigida (antes: /src/assets/logo-jvr.png) */}
             <img
-              src="/src/assets/logo-jvr.png"
+              src={logoPrimary}
               alt="JVR"
               className={cn(
                 "h-8 w-auto object-contain",
@@ -79,6 +84,9 @@ export default function Layout() {
                 "image-render-auto"
               )}
               draggable={false}
+              onError={(e) => {
+                ;(e.currentTarget as HTMLImageElement).src = logoFallback
+              }}
             />
             <div className="leading-tight">
               <div className={cn("text-sm font-semibold", headerOnDark ? "text-white" : "text-slate-900")}>
@@ -132,11 +140,15 @@ export default function Layout() {
               {/* Brand */}
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
+                  {/* ✅ logo corrigida (antes: /src/assets/logo-jvr.png) */}
                   <img
-                    src="/src/assets/logo-jvr.png"
+                    src={logoPrimary}
                     alt="JVR"
                     className={cn("h-7 w-auto object-contain image-render-auto")}
                     draggable={false}
+                    onError={(e) => {
+                      ;(e.currentTarget as HTMLImageElement).src = logoFallback
+                    }}
                   />
                   <div className="leading-tight">
                     <div className="text-lg font-semibold">JVR</div>

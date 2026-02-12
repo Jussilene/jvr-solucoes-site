@@ -274,11 +274,11 @@ export default function Home() {
               <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_30px_80px_rgba(0,0,0,0.35)] backdrop-blur-md">
                 <div className="rounded-2xl bg-white p-8">
                   <img
-                    src="/src/assets/logo-jvr.png"
-                    alt="JVR Soluções Inteligentes"
-                    className="mx-auto h-40 w-auto object-contain"
-                    draggable={false}
-                  />
+  src={import.meta.env.BASE_URL + "brand/logo-jvr.png"}
+  alt="JVR Soluções Inteligentes"
+  className="mx-auto h-40 w-auto object-contain"
+  draggable={false}
+/>
                 </div>
               </div>
             </div>

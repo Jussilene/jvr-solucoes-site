@@ -1,6 +1,11 @@
 import { Mail, Phone, MapPin } from "lucide-react"
 
 export default function Footer() {
+  // ✅ usa a MESMA logo que já funciona no HERO
+  const base = import.meta.env.BASE_URL || "/"
+  const logoPrimary = `${base}brand/logo-jvr.png`
+  const logoFallback = `${base}brand/logo.png`
+
   return (
     <footer className="relative overflow-hidden text-white">
       <div className="absolute inset-0 bg-[#061a37]" />
@@ -11,10 +16,14 @@ export default function Footer() {
           <div className="space-y-4">
             <div className="flex items-center gap-3">
               <img
-                src="/src/assets/logo-jvr.png"
+                src={logoPrimary}
                 alt="JVR"
                 className="h-7 w-auto object-contain image-render-auto"
                 draggable={false}
+                loading="eager"
+                onError={(e) => {
+                  ;(e.currentTarget as HTMLImageElement).src = logoFallback
+                }}
               />
               <div className="leading-tight">
                 <div className="text-lg font-semibold text-white">JVR</div>
