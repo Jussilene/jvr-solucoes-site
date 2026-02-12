@@ -12,8 +12,8 @@ export type LeadPayload = {
 
 const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string
 const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string
-const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string
-const EMAIL_TO = import.meta.env.VITE_EMAIL_TO as string
+const PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string
+const EMAIL_TO    = import.meta.env.VITE_EMAIL_TO as string
 
 export async function sendLeadEmail(payload: LeadPayload) {
   if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY || !EMAIL_TO) {
@@ -34,7 +34,6 @@ export async function sendLeadEmail(payload: LeadPayload) {
     to_email: EMAIL_TO,
   }
 
-  return emailjs.send(SERVICE_ID, TEMPLATE_ID, params, {
-    publicKey: PUBLIC_KEY,
-  })
+  // ✅ ASSINATURA CORRETA (4º argumento é a PUBLIC KEY string)
+  return emailjs.send(SERVICE_ID, TEMPLATE_ID, params, PUBLIC_KEY)
 }
