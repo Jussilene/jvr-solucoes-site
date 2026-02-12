@@ -29,19 +29,6 @@ jobs:
       - name: Install
         run: npm ci
 
-      # ✅ DEBUG (não vaza valores, só true/false)
-      - name: Debug ENV (safe)
-        run: |
-          node -e "console.log('SERVICE?', !!process.env.VITE_EMAILJS_SERVICE_ID)"
-          node -e "console.log('TEMPLATE?', !!process.env.VITE_EMAILJS_TEMPLATE_ID)"
-          node -e "console.log('PUBLIC?', !!process.env.VITE_EMAILJS_PUBLIC_KEY)"
-          node -e "console.log('EMAIL_TO?', !!process.env.VITE_EMAIL_TO)"
-        env:
-          VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
-          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
-          VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
-          VITE_EMAIL_TO: ${{ secrets.VITE_EMAIL_TO }}
-
       - name: Build
         run: npm run build
         env:
