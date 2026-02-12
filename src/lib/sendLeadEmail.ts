@@ -10,16 +10,16 @@ export type LeadPayload = {
   source?: string
 }
 
-// ✅ usa ENV (GitHub Actions injeta no build) com fallback pros valores atuais
-const SERVICE_ID =
-  import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_jqlqzbj"
-const TEMPLATE_ID =
-  import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "template_ldt5hzd"
-const PUBLIC_KEY =
-  import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "R16rlcgN0FAYIs1Xq"
-const EMAIL_TO = import.meta.env.VITE_EMAIL_TO || "jussilene.valim@gmail.com"
+const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
+const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+const PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+const EMAIL_TO    = import.meta.env.VITE_EMAIL_TO
 
 export async function sendLeadEmail(payload: LeadPayload) {
+  if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY || !EMAIL_TO) {
+    throw new Error("Config EmailJS ausente no build (VITE_EMAILJS_*).")
+  }
+
   const params = {
     title: payload.title || "",
     nome: payload.name || "",
