@@ -10,10 +10,10 @@ export type LeadPayload = {
   source?: string
 }
 
-const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
-const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
-const PUBLIC_KEY  = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-const EMAIL_TO    = import.meta.env.VITE_EMAIL_TO
+const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string
+const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string
+const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string
+const EMAIL_TO = import.meta.env.VITE_EMAIL_TO as string
 
 export async function sendLeadEmail(payload: LeadPayload) {
   if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY || !EMAIL_TO) {
