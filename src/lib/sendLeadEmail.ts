@@ -10,10 +10,14 @@ export type LeadPayload = {
   source?: string
 }
 
-const SERVICE_ID = "service_jqlqzbj"
-const TEMPLATE_ID = "template_ldt5hzd"
-const PUBLIC_KEY = "R16rlcgN0FAYIs1Xq"
-const EMAIL_TO = "jussilene.valim@gmail.com"
+// ✅ usa ENV (GitHub Actions injeta no build) com fallback pros valores atuais
+const SERVICE_ID =
+  import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_jqlqzbj"
+const TEMPLATE_ID =
+  import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "template_ldt5hzd"
+const PUBLIC_KEY =
+  import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "R16rlcgN0FAYIs1Xq"
+const EMAIL_TO = import.meta.env.VITE_EMAIL_TO || "jussilene.valim@gmail.com"
 
 export async function sendLeadEmail(payload: LeadPayload) {
   const params = {

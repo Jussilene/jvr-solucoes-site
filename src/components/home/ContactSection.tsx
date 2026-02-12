@@ -1,6 +1,40 @@
-import { Send } from "lucide-react";
+import React, { useState } from "react"
+import { Send } from "lucide-react"
+import { sendLeadEmail } from "@/lib/sendLeadEmail"
 
 export default function ContactSection() {
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [message, setMessage] = useState("")
+  const [loading, setLoading] = useState(false)
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!name.trim() || !email.trim()) return
+
+    try {
+      setLoading(true)
+
+      await sendLeadEmail({
+        title: "Contato (Site)",
+        name: name.trim(),
+        email: email.trim(),
+        message: message.trim() || undefined,
+        source: "Contato (Seção)",
+      })
+
+      setName("")
+      setEmail("")
+      setMessage("")
+      alert("Mensagem enviada com sucesso! ✅")
+    } catch (err: any) {
+      console.error(err)
+      alert(err?.message || "Não foi possível enviar agora. Tente novamente.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <section id="contato" className="border-t border-black/5 bg-white">
       <div className="mx-auto max-w-6xl px-4 py-16">
@@ -46,22 +80,42 @@ export default function ContactSection() {
 
           {/* right form */}
           <div className="rounded-3xl border border-black/5 bg-black/[0.02] p-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input className="h-12 rounded-xl border border-black/10 bg-white px-4 outline-none focus:ring-2 focus:ring-black/10" placeholder="Seu nome *" />
-              <input className="h-12 rounded-xl border border-black/10 bg-white px-4 outline-none focus:ring-2 focus:ring-black/10" placeholder="Seu e-mail *" />
-            </div>
+            <form onSubmit={onSubmit}>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input
+                  className="h-12 rounded-xl border border-black/10 bg-white px-4 outline-none focus:ring-2 focus:ring-black/10"
+                  placeholder="Seu nome *"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <input
+                  className="h-12 rounded-xl border border-black/10 bg-white px-4 outline-none focus:ring-2 focus:ring-black/10"
+                  placeholder="Seu e-mail *"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
 
-            <textarea
-              className="mt-4 min-h-[180px] w-full rounded-xl border border-black/10 bg-white p-4 outline-none focus:ring-2 focus:ring-black/10"
-              placeholder="Sua mensagem..."
-            />
+              <textarea
+                className="mt-4 min-h-[180px] w-full rounded-xl border border-black/10 bg-white p-4 outline-none focus:ring-2 focus:ring-black/10"
+                placeholder="Sua mensagem..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+              />
 
-            <button className="mt-6 w-full h-14 rounded-xl bg-[#0a2a4a] text-white font-semibold hover:opacity-90 transition inline-flex items-center justify-center">
-              Enviar Mensagem <Send className="ml-2 h-5 w-5" />
-            </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="mt-6 w-full h-14 rounded-xl bg-[#0a2a4a] text-white font-semibold hover:opacity-90 transition inline-flex items-center justify-center disabled:opacity-70"
+              >
+                {loading ? "Enviando..." : "Enviar Mensagem"}{" "}
+                <Send className="ml-2 h-5 w-5" />
+              </button>
+            </form>
           </div>
         </div>
       </div>
     </section>
-  );
+  )
 }
