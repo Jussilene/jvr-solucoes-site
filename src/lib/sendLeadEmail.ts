@@ -34,6 +34,12 @@ export async function sendLeadEmail(payload: LeadPayload) {
     to_email: EMAIL_TO,
   }
 
-  // ✅ ASSINATURA CORRETA (4º argumento é a PUBLIC KEY string)
-  return emailjs.send(SERVICE_ID, TEMPLATE_ID, params, PUBLIC_KEY)
+  try {
+    // ✅ ASSINATURA CORRETA (4º argumento é a PUBLIC KEY string)
+    return await emailjs.send(SERVICE_ID, TEMPLATE_ID, params, PUBLIC_KEY)
+  } catch (err: any) {
+    // ✅ Ajuda MUITO a debugar em produção
+    console.error("EmailJS error:", err?.status, err?.text, err)
+    throw err
+  }
 }
