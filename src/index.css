@@ -25,9 +25,8 @@
     --ring: 0 0% 3.9%;
     --radius: 0.75rem;
 
-    /* Marca (laranja Base44-like) */
-    --brand: 38 92% 55%;
-    --brand-2: 38 92% 45%;
+    --brand: 42 84% 60%;
+    --brand-2: 42 79% 52%;
   }
 
   .dark {
@@ -57,48 +56,42 @@
   * {
     @apply border-border;
   }
+
   html,
   body {
     height: 100%;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
 
-/* ========= Base44-like helpers ========= */
-
-/* Fundo com quadriculado fino (grid) + glow suave */
 @layer utilities {
   .bg-grid-fine {
     background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-    background-size: 44px 44px;
+      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
   }
 
   .hero-bg {
     background:
-      radial-gradient(80% 80% at 50% 35%, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0) 60%),
-      radial-gradient(60% 60% at 25% 55%, rgba(245, 166, 35, 0.10) 0%, rgba(245, 166, 35, 0) 55%),
-      linear-gradient(180deg, rgba(2, 14, 34, 1) 0%, rgba(6, 26, 55, 1) 100%);
+      radial-gradient(62% 80% at 66% 48%, rgba(80, 120, 170, 0.28) 0%, rgba(80, 120, 170, 0) 66%),
+      radial-gradient(65% 60% at 32% 12%, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 65%),
+      radial-gradient(58% 55% at 12% 64%, rgba(240, 178, 71, 0.08) 0%, rgba(240, 178, 71, 0) 55%),
+      linear-gradient(180deg, #071a2f 0%, #092347 100%);
   }
 
   .text-brand {
     color: hsl(var(--brand));
   }
+
   .bg-brand {
     background-color: hsl(var(--brand));
   }
+
   .bg-brand-hover:hover {
     background-color: hsl(var(--brand-2));
-  }
-
-  /* Ícone "mono" estilo Base44 */
-  .icon-mono {
-    color: rgba(255, 255, 255, 0.72);
-  }
-  .icon-mono-light {
-    color: rgba(2, 14, 34, 0.72);
   }
 }

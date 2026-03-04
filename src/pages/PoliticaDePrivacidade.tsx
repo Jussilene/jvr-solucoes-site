@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+﻿import { Link } from "react-router-dom"
 
 export default function PoliticaDePrivacidade() {
   return (
@@ -9,50 +9,51 @@ export default function PoliticaDePrivacidade() {
           Última atualização: {new Date().toLocaleDateString("pt-BR")}
         </p>
 
-        <div className="prose prose-slate max-w-none mt-10">
+        <div className="prose prose-slate mt-10 max-w-none">
           <p>
             Esta Política descreve como a <strong>JVR Soluções Inteligentes</strong> trata dados pessoais coletados neste site,
-            em conformidade com boas práticas e princípios da LGPD.
+            em conformidade com os princípios da Lei Geral de Proteção de Dados (LGPD).
           </p>
 
           <h2>1. Quais dados coletamos</h2>
           <ul>
             <li>Dados fornecidos em formulários: nome, e-mail, telefone, empresa e descrição da necessidade.</li>
-            <li>Dados técnicos básicos: navegador, dispositivo, páginas acessadas (quando houver analytics).</li>
+            <li>Dados técnicos básicos: navegador, dispositivo e páginas acessadas (quando houver ferramentas de análise).</li>
           </ul>
 
-          <h2>2. Para que usamos os dados</h2>
+          <h2>2. Finalidades do tratamento</h2>
           <ul>
-            <li>Responder solicitações e contatos.</li>
+            <li>Responder solicitações e contatos recebidos pelo site.</li>
             <li>Entender necessidades e elaborar propostas de serviços/projetos.</li>
-            <li>Melhorar a experiência do site e a comunicação (quando aplicável).</li>
+            <li>Melhorar a experiência do site e a comunicação com o público.</li>
           </ul>
 
-          <h2>3. Compartilhamento</h2>
+          <h2>3. Compartilhamento de dados</h2>
           <p>
-            Não vendemos seus dados. Podemos compartilhar com fornecedores estritamente necessários (ex.: e-mail/hosting),
-            sempre com finalidade legítima e mínima.
+            Não comercializamos dados pessoais. O compartilhamento poderá ocorrer apenas com fornecedores essenciais à operação
+            (por exemplo, hospedagem e serviços de e-mail), sempre dentro de finalidade legítima e mínima necessária.
           </p>
 
           <h2>4. Retenção e segurança</h2>
           <p>
-            Mantemos dados apenas pelo tempo necessário para atendimento/obrigações legais e aplicamos medidas de segurança razoáveis.
+            Os dados são mantidos somente pelo período necessário ao atendimento e ao cumprimento de obrigações legais,
+            com adoção de medidas técnicas e administrativas de segurança compatíveis.
           </p>
 
-          <h2>5. Seus direitos</h2>
+          <h2>5. Direitos do titular</h2>
           <p>
-            Você pode solicitar acesso, correção, exclusão e informações sobre tratamento de dados por meio do e-mail:
-            <strong> contato@jvrsolucoes.com.br</strong>.
+            Você pode solicitar acesso, correção, atualização ou exclusão de dados pessoais, observadas as hipóteses legais,
+            pelo e-mail <strong>jvr.solucoes8@gmail.com</strong>.
           </p>
 
           <h2>6. Cookies</h2>
           <p>
-            Podemos utilizar cookies para funcionamento e métricas. Você pode controlar cookies no seu navegador.
+            Podemos utilizar cookies para funcionamento e métricas de navegação. Você pode gerenciar essas permissões no seu navegador.
           </p>
 
-          <h2>7. Alterações</h2>
+          <h2>7. Alterações desta política</h2>
           <p>
-            Esta Política pode ser atualizada periodicamente.
+            Esta Política poderá ser atualizada periodicamente. Recomendamos consulta regular desta página.
           </p>
         </div>
 

@@ -1,9 +1,5 @@
 import React, { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
+import emailjs from "@emailjs/browser"
 import {
   Sparkles,
   ArrowRight,
@@ -21,9 +17,15 @@ import {
   Mail,
   Phone,
   MapPin,
+  Send,
 } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Badge } from "@/components/ui/badge"
 import InterestModal from "@/components/InterestModal"
-import emailjs from "@emailjs/browser"
 
 function scrollToId(id: string) {
   const el = document.getElementById(id)
@@ -73,7 +75,7 @@ const products: Product[] = [
   {
     tag: "MVP / Automação",
     title: "MVP Captura de Notas Fiscais de Serviços",
-    desc: "Capture, organize e gerencie NFS-e — recebidas, emitidas e canceladas — de forma automática e organizada em pastas.",
+    desc: "Capture, organize e gerencie NFS-e - recebidas, emitidas e canceladas - de forma automática e organizada em pastas.",
     bullets: [
       "Captura automática de NFS-e",
       "Separação: recebidas, emitidas, canceladas",
@@ -101,7 +103,6 @@ const products: Product[] = [
 ]
 
 export default function Home() {
-  // ✅ AJUSTE: estado do modal (só isso)
   const [interestOpen, setInterestOpen] = useState(false)
   const [interestProductTitle, setInterestProductTitle] = useState("")
 
@@ -110,7 +111,6 @@ export default function Home() {
     setInterestOpen(true)
   }
 
-  // ✅ NOVO: states do "Solicite seu projeto"
   const [projName, setProjName] = useState("")
   const [projEmail, setProjEmail] = useState("")
   const [projPhone, setProjPhone] = useState("")
@@ -118,13 +118,11 @@ export default function Home() {
   const [projMessage, setProjMessage] = useState("")
   const [projSending, setProjSending] = useState(false)
 
-  // ✅ NOVO: states do "Fale conosco"
   const [contactName, setContactName] = useState("")
   const [contactEmail, setContactEmail] = useState("")
   const [contactMessage, setContactMessage] = useState("")
   const [contactSending, setContactSending] = useState(false)
 
-  // ✅ NOVO: função de envio (mesmo EmailJS do modal)
   const sendEmail = async (payload: {
     nome: string
     email: string
@@ -138,7 +136,6 @@ export default function Home() {
     const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string
     const emailTo = (import.meta.env.VITE_EMAIL_TO as string) || ""
 
-    // garante que o "para" exista no template (se você usar {{to_email}})
     const params = {
       ...payload,
       to_email: emailTo,
@@ -147,10 +144,8 @@ export default function Home() {
     return emailjs.send(serviceId, templateId, params, publicKey)
   }
 
-  // ✅ NOVO: submit "Solicite seu projeto"
   const onSubmitProject = async (e: React.FormEvent) => {
     e.preventDefault()
-
     if (!projName.trim() || !projEmail.trim()) return
 
     try {
@@ -164,7 +159,6 @@ export default function Home() {
         message: projMessage,
       })
 
-      // limpa
       setProjName("")
       setProjEmail("")
       setProjPhone("")
@@ -177,10 +171,8 @@ export default function Home() {
     }
   }
 
-  // ✅ NOVO: submit "Fale conosco"
   const onSubmitContact = async (e: React.FormEvent) => {
     e.preventDefault()
-
     if (!contactName.trim() || !contactEmail.trim()) return
 
     try {
@@ -194,7 +186,6 @@ export default function Home() {
         message: contactMessage,
       })
 
-      // limpa
       setContactName("")
       setContactEmail("")
       setContactMessage("")
@@ -207,78 +198,90 @@ export default function Home() {
 
   return (
     <>
-      {/* ✅ Modal (igual ao print) */}
       <InterestModal
         open={interestOpen}
         onClose={() => setInterestOpen(false)}
         productTitle={interestProductTitle}
       />
 
-      {/* HERO */}
-      <section id="hero" className="hero-bg bg-grid-fine">
-        <div className="mx-auto max-w-6xl px-4 py-14 md:py-20">
-          <div className="grid items-center gap-10 md:grid-cols-2">
-            <div className="space-y-6">
-              <Badge className="bg-white/10 text-white border-white/15 px-4 py-1.5 rounded-full">
-                <Sparkles className="h-4 w-4 mr-2" />
-                Inteligência Artificial & Automação
-              </Badge>
+      <section
+        id="hero"
+        className="relative flex min-h-[92vh] items-center overflow-hidden bg-gradient-to-br from-[#0a1628] via-[#132744] to-[#1B3A5C]"
+      >
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+        />
+        <div className="absolute left-1/4 top-1/4 h-96 w-96 rounded-full bg-[#E8A838]/10 blur-[120px]" />
+        <div className="absolute bottom-1/4 right-1/4 h-80 w-80 rounded-full bg-[#3b6cb5]/15 blur-[100px]" />
 
-              <h1 className="text-5xl font-bold leading-tight text-white md:text-6xl">
-                Transforme sua <br />
-                empresa com <br />
-                <span className="text-brand">soluções</span> <br />
-                <span className="text-brand">inteligentes</span>
+        <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pt-14 lg:px-8 lg:pt-16">
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            <div>
+              <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2">
+                <Sparkles className="h-4 w-4 text-[#E8A838]" />
+                <span className="text-sm text-white/70">Inteligência Artificial & Automação</span>
+              </div>
+
+              <h1 className="mb-6 text-4xl font-bold leading-[1.1] text-white sm:text-5xl lg:text-6xl">
+                Transforme sua empresa com{" "}
+                <span className="bg-gradient-to-r from-[#E8A838] to-[#f0c36d] bg-clip-text text-transparent">
+                  soluções inteligentes
+                </span>
               </h1>
 
-              <p className="text-white/70 max-w-xl">
+              <p className="mb-10 max-w-xl text-lg leading-relaxed text-white/60">
                 Sistemas prontos de IA e MVPs que automatizam processos financeiros, fiscais e estratégicos.
                 Reduza custos, ganhe tempo e tome decisões com dados reais.
               </p>
 
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-4">
                 <Button
-                  className="rounded-full bg-[hsl(var(--brand))] text-slate-900 hover:bg-[hsl(var(--brand-2))]"
+                  className="rounded-xl bg-[#E8A838] px-8 py-6 text-base font-semibold text-[#0a1628] shadow-lg shadow-[#E8A838]/20 transition-all hover:bg-[#d4952e] hover:shadow-xl hover:shadow-[#E8A838]/30"
                   onClick={() => scrollToId("produtos")}
                 >
-                  Ver Soluções <ArrowRight className="ml-2 h-4 w-4" />
+                  Ver Soluções <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
 
                 <Button
                   variant="outline"
-                  className="rounded-full border-white/20 bg-white/5 text-white hover:bg-white/10"
+                  className="rounded-xl border-white/20 bg-transparent px-8 py-6 text-base text-white transition-all hover:bg-white/10"
                   onClick={() => scrollToId("personalizada")}
                 >
                   Solicitar Projeto
                 </Button>
               </div>
 
-              <div className="mt-8 grid grid-cols-3 gap-6 border-t border-white/10 pt-6 max-w-xl">
+              <div className="mt-12 flex items-center gap-8 border-t border-white/10 pt-8">
                 <div>
-                  <div className="text-3xl font-bold text-brand">4+</div>
-                  <div className="text-xs text-white/60">Soluções Prontas</div>
+                  <p className="text-2xl font-bold text-[#E8A838]">4+</p>
+                  <p className="mt-1 text-xs text-white/50">Soluções Prontas</p>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-brand">IA</div>
-                  <div className="text-xs text-white/60">Tecnologia Avançada</div>
+                  <p className="text-2xl font-bold text-[#E8A838]">IA</p>
+                  <p className="mt-1 text-xs text-white/50">Tecnologia Avançada</p>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-brand">100%</div>
-                  <div className="text-xs text-white/60">Personalizável</div>
+                  <p className="text-2xl font-bold text-[#E8A838]">100%</p>
+                  <p className="mt-1 text-xs text-white/50">Personalizável</p>
                 </div>
               </div>
             </div>
 
-            {/* Logo / mock */}
-            <div className="relative">
-              <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_30px_80px_rgba(0,0,0,0.35)] backdrop-blur-md">
-                <div className="rounded-2xl bg-white p-8">
+            <div className="hidden justify-center lg:flex">
+              <div className="relative">
+                <div className="absolute inset-0 scale-110 rounded-3xl bg-gradient-to-br from-[#E8A838]/20 to-[#3b6cb5]/20 blur-xl" />
+                <div className="relative rounded-3xl border border-white/10 bg-white/5 p-10 backdrop-blur-sm">
                   <img
-  src={import.meta.env.BASE_URL + "brand/logo-jvr.png"}
-  alt="JVR Soluções Inteligentes"
-  className="mx-auto h-40 w-auto object-contain"
-  draggable={false}
-/>
+                    src={import.meta.env.BASE_URL + "brand/logo-jvr.png"}
+                    alt="JVR Soluções Inteligentes"
+                    className="w-full max-w-[420px]"
+                    draggable={false}
+                  />
                 </div>
               </div>
             </div>
@@ -286,13 +289,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PRODUTOS */}
       <section id="produtos" className="bg-white">
         <div className="mx-auto max-w-6xl px-4 py-20">
           <div className="text-center">
             <div className="text-xs font-semibold tracking-[0.25em] text-brand">NOSSOS PRODUTOS</div>
             <h2 className="mt-3 text-4xl font-bold text-slate-900">Soluções prontas para sua empresa</h2>
-            <p className="mt-3 text-slate-600 max-w-2xl mx-auto">
+            <p className="mx-auto mt-3 max-w-2xl text-slate-600">
               Sistemas de IA e MVPs desenvolvidos para resolver problemas reais do dia a dia empresarial,
               com implementação rápida e resultados imediatos.
             </p>
@@ -300,7 +302,11 @@ export default function Home() {
 
           <div className="mt-12 grid gap-6 md:grid-cols-4">
             {products.map((p) => (
-              <Card key={p.title} className="rounded-2xl border-slate-200 shadow-sm">
+              <Card
+                key={p.title}
+                className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-500 hover:border-[#E8A838]/30 hover:shadow-xl hover:shadow-[#E8A838]/5"
+              >
+                <div className="absolute left-0 top-0 h-1 w-full bg-gradient-to-r from-[#1B3A5C] to-[#E8A838] opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                 <div className="flex h-full flex-col p-6">
                   <div className="flex items-center gap-3">
                     <div className={`rounded-2xl ${p.iconBg} p-3`}>
@@ -309,13 +315,16 @@ export default function Home() {
                   </div>
 
                   <div className="mt-4">
-                    <Badge className="bg-slate-100 text-slate-700 border border-slate-200 rounded-full">
+                    <Badge
+                      variant="outline"
+                      className="pointer-events-none rounded-full border border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-100 hover:text-slate-700"
+                    >
                       {p.tag}
                     </Badge>
                   </div>
 
                   <h3 className="mt-4 text-2xl font-bold text-slate-900">{p.title}</h3>
-                  <p className="mt-3 text-sm text-slate-600 leading-relaxed">{p.desc}</p>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-600">{p.desc}</p>
 
                   <ul className="mt-5 space-y-3 text-sm text-slate-600">
                     {p.bullets.map((b) => (
@@ -327,13 +336,12 @@ export default function Home() {
                   </ul>
 
                   <div className="mt-auto pt-6">
-                    {/* ✅ AJUSTE: onClick abre modal */}
                     <Button
-                      className="w-full rounded-full bg-[#061a37] text-white hover:bg-[#052048]"
+                      className="group/btn w-full rounded-xl bg-[#113860] text-white transition-all duration-300 hover:bg-[#0f3358]"
                       onClick={() => openInterest(p.title)}
                       type="button"
                     >
-                      Tenho Interesse <ArrowRight className="ml-2 h-4 w-4" />
+                      Tenho Interesse <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
                     </Button>
                   </div>
                 </div>
@@ -343,21 +351,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PERSONALIZADA */}
       <section id="personalizada" className="bg-white">
         <div className="mx-auto max-w-6xl px-4 py-20">
           <div className="grid gap-10 md:grid-cols-2 md:items-start">
             <div>
               <div className="text-xs font-semibold tracking-[0.25em] text-brand">SOB MEDIDA</div>
               <h2 className="mt-3 text-4xl font-bold text-slate-900">Precisa de uma solução personalizada?</h2>
-              <p className="mt-4 text-slate-600 max-w-xl">
+              <p className="mt-4 max-w-xl text-slate-600">
                 Se nenhum dos nossos produtos atende 100% à sua necessidade, desenvolvemos uma solução exclusiva para a sua empresa.
-                Da ideia à implementação — com tecnologia de ponta.
+                Da ideia à implementação com tecnologia de ponta.
               </p>
 
               <div className="mt-10 space-y-6">
                 <div className="flex gap-4">
-                  <div className="h-12 w-12 rounded-2xl bg-slate-100 flex items-center justify-center">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100">
                     <Lightbulb className="h-5 w-5 text-slate-700" />
                   </div>
                   <div>
@@ -367,7 +374,7 @@ export default function Home() {
                 </div>
 
                 <div className="flex gap-4">
-                  <div className="h-12 w-12 rounded-2xl bg-slate-100 flex items-center justify-center">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100">
                     <Code2 className="h-5 w-5 text-slate-700" />
                   </div>
                   <div>
@@ -377,7 +384,7 @@ export default function Home() {
                 </div>
 
                 <div className="flex gap-4">
-                  <div className="h-12 w-12 rounded-2xl bg-slate-100 flex items-center justify-center">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100">
                     <Settings className="h-5 w-5 text-slate-700" />
                   </div>
                   <div>
@@ -388,7 +395,7 @@ export default function Home() {
               </div>
             </div>
 
-            <Card className="rounded-3xl border-slate-200 shadow-sm">
+            <Card className="rounded-3xl border-slate-200 bg-slate-50 shadow-sm">
               <div className="p-8">
                 <h3 className="text-2xl font-bold text-slate-900">Solicite seu projeto</h3>
 
@@ -410,11 +417,11 @@ export default function Home() {
                   </div>
 
                   <Button
-                    className="mt-6 w-full rounded-full bg-[hsl(var(--brand))] text-slate-900 hover:bg-[hsl(var(--brand-2))]"
+                    className="mt-6 w-full rounded-xl bg-[hsl(var(--brand))] text-slate-900 hover:bg-[hsl(var(--brand-2))]"
                     type="submit"
                     disabled={projSending}
                   >
-                    {projSending ? "Enviando..." : <>Enviar Solicitação <ArrowRight className="ml-2 h-4 w-4" /></>}
+                    {projSending ? "Enviando..." : <>Enviar Solicitação <Send className="ml-2 h-4 w-4" /></>}
                   </Button>
                 </form>
               </div>
@@ -423,27 +430,30 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SOBRE */}
-      <section id="sobre" className="bg-[#061a37] text-white">
-        <div className="mx-auto max-w-6xl px-4 py-20">
+      <section id="sobre" className="relative overflow-hidden bg-[#0a1628] py-24 text-white">
+        <div className="absolute right-0 top-0 h-96 w-96 rounded-full bg-[#E8A838]/5 blur-[120px]" />
+        <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-8">
           <div className="text-center">
             <div className="text-xs font-semibold tracking-[0.25em] text-brand">SOBRE NÓS</div>
             <h2 className="mt-3 text-4xl font-bold">Por que a JVR Soluções Inteligentes?</h2>
-            <p className="mt-4 text-white/70 max-w-2xl mx-auto">
+            <p className="mx-auto mt-4 max-w-2xl text-white/70">
               Somos especialistas em desenvolver sistemas com Inteligência Artificial e MVPs que resolvem desafios reais de empresas,
               com foco em processos financeiros, fiscais e estratégicos.
             </p>
           </div>
 
-          <div className="mt-12 grid gap-6 md:grid-cols-4">
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {[
               { title: "Inovação", desc: "Tecnologia de ponta aplicada a problemas reais", icon: <Zap className="h-5 w-5 text-brand" /> },
               { title: "Confiança", desc: "Segurança e transparência em cada entrega", icon: <ShieldCheck className="h-5 w-5 text-brand" /> },
               { title: "Resultado", desc: "Foco em ROI e impacto mensurável", icon: <Target className="h-5 w-5 text-brand" /> },
               { title: "Parceria", desc: "Trabalhamos lado a lado com sua equipe", icon: <Users className="h-5 w-5 text-brand" /> },
             ].map((item) => (
-              <div key={item.title} className="rounded-3xl border border-white/10 bg-white/5 p-6 backdrop-blur-md">
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5 border border-white/10">
+              <div
+                key={item.title}
+                className="rounded-2xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur-sm transition-all duration-300 hover:bg-white/10"
+              >
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
                   {item.icon}
                 </div>
                 <div className="mt-5 text-center">
@@ -456,13 +466,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CONTATO */}
       <section id="contato" className="bg-white">
         <div className="mx-auto max-w-6xl px-4 py-20">
           <div className="text-center">
             <div className="text-xs font-semibold tracking-[0.25em] text-brand">CONTATO</div>
             <h2 className="mt-3 text-5xl font-bold text-slate-900">Fale conosco</h2>
-            <p className="mt-4 text-slate-600 max-w-2xl mx-auto">
+            <p className="mx-auto mt-4 max-w-2xl text-slate-600">
               Tem dúvidas ou quer saber mais sobre nossas soluções? Entre em contato e responderemos rapidamente.
             </p>
           </div>
@@ -470,17 +479,17 @@ export default function Home() {
           <div className="mt-12 grid gap-8 md:grid-cols-2 md:items-start">
             <div className="space-y-6">
               <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-2xl bg-slate-100 flex items-center justify-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100">
                   <Mail className="h-5 w-5 text-slate-700" />
                 </div>
                 <div>
                   <div className="text-sm text-slate-500">E-mail</div>
-                  <div className="font-semibold text-slate-900">contato@jvrsolucoes.com.br</div>
+                  <div className="font-semibold text-slate-900">jvr.solucoes8@gmail.com</div>
                 </div>
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-2xl bg-slate-100 flex items-center justify-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100">
                   <Phone className="h-5 w-5 text-slate-700" />
                 </div>
                 <div>
@@ -490,7 +499,7 @@ export default function Home() {
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-2xl bg-slate-100 flex items-center justify-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100">
                   <MapPin className="h-5 w-5 text-slate-700" />
                 </div>
                 <div>
@@ -516,11 +525,11 @@ export default function Home() {
                     />
                   </div>
                   <Button
-                    className="mt-6 w-full rounded-full bg-[#061a37] text-white hover:bg-[#052048]"
+                    className="mt-6 w-[230px] rounded-xl bg-[#113860] text-white hover:bg-[#0f3358]"
                     type="submit"
                     disabled={contactSending}
                   >
-                    {contactSending ? "Enviando..." : <>Enviar Mensagem <ArrowRight className="ml-2 h-4 w-4" /></>}
+                    {contactSending ? "Enviando..." : <>Enviar Mensagem <Send className="ml-2 h-4 w-4" /></>}
                   </Button>
                 </form>
               </div>

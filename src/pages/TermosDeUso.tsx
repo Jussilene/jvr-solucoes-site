@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+﻿import { Link } from "react-router-dom"
 
 export default function TermosDeUso() {
   return (
@@ -9,44 +9,45 @@ export default function TermosDeUso() {
           Última atualização: {new Date().toLocaleDateString("pt-BR")}
         </p>
 
-        <div className="prose prose-slate max-w-none mt-10">
+        <div className="prose prose-slate mt-10 max-w-none">
           <p>
             Estes Termos de Uso regulam o acesso e a utilização do site da <strong>JVR Soluções Inteligentes</strong>.
-            Ao navegar neste site, você concorda com os termos abaixo.
+            Ao navegar neste site, você declara que leu, compreendeu e concorda com as disposições abaixo.
           </p>
 
           <h2>1. Uso do site</h2>
           <p>
-            Você se compromete a utilizar o site de forma lícita, sem violar direitos de terceiros,
-            sem tentar explorar vulnerabilidades, e sem interferir no funcionamento do serviço.
+            O usuário compromete-se a utilizar este site de forma lícita, ética e em conformidade com a legislação aplicável,
+            sem praticar atos que prejudiquem terceiros, comprometam a segurança da plataforma ou interfiram na sua disponibilidade.
           </p>
 
           <h2>2. Conteúdo e propriedade intelectual</h2>
           <p>
-            Textos, marcas, layout e demais conteúdos exibidos podem estar protegidos por direitos autorais e/ou propriedade intelectual.
-            É proibida a reprodução sem autorização prévia, salvo quando permitido por lei.
+            Todos os conteúdos, incluindo textos, marcas, identidade visual, layout e materiais disponibilizados, são protegidos por
+            direitos autorais e de propriedade intelectual. É vedada a reprodução, distribuição ou uso sem autorização prévia,
+            salvo hipóteses legalmente permitidas.
           </p>
 
           <h2>3. Propostas e contato</h2>
           <p>
-            Informações enviadas via formulários (ex.: solicitação de projeto) serão usadas para retorno comercial/atendimento.
-            A JVR pode solicitar dados adicionais para entendimento do escopo.
+            As informações enviadas por formulários poderão ser utilizadas para atendimento, contato comercial e elaboração de propostas.
+            Quando necessário, poderemos solicitar dados complementares para melhor entendimento da demanda.
           </p>
 
           <h2>4. Limitação de responsabilidade</h2>
           <p>
-            Embora busquemos manter informações corretas e o site disponível, não garantimos ausência de falhas, interrupções ou imprecisões.
-            O uso do site é de responsabilidade do usuário.
+            Empregamos esforços razoáveis para manter o site atualizado e disponível. Ainda assim, não garantimos ausência de falhas
+            técnicas, indisponibilidades temporárias ou imprecisões eventuais. O uso do site é de responsabilidade do usuário.
           </p>
 
           <h2>5. Alterações</h2>
           <p>
-            Podemos atualizar estes Termos a qualquer momento. Recomenda-se revisá-los periodicamente.
+            Estes Termos podem ser atualizados a qualquer tempo, sem aviso prévio. Recomendamos a revisão periódica desta página.
           </p>
 
           <h2>6. Contato</h2>
           <p>
-            Para dúvidas sobre estes termos: <strong>contato@jvrsolucoes.com.br</strong>.
+            Para dúvidas sobre estes Termos de Uso, entre em contato pelo e-mail: <strong>jvr.solucoes8@gmail.com</strong>.
           </p>
         </div>
 
