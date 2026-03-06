@@ -57,6 +57,8 @@ export async function sendLeadEmail(payload: LeadPayload) {
 
   const params = {
     title: normalized.title,
+    subject: normalized.title,
+    assunto: normalized.title,
     nome: normalized.name,
     name: normalized.name,
     email: normalized.email,
