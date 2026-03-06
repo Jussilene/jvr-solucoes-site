@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import emailjs from "@emailjs/browser"
 import {
   Sparkles,
   ArrowRight,
@@ -26,6 +25,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
 import InterestModal from "@/components/InterestModal"
+import { sendLeadEmail } from "@/lib/sendLeadEmail"
 
 function scrollToId(id: string) {
   const el = document.getElementById(id)
@@ -130,19 +130,16 @@ export default function Home() {
     empresa?: string
     title: string
     message: string
-  }) => {
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID as string
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string
-    const emailTo = (import.meta.env.VITE_EMAIL_TO as string) || ""
-
-    const params = {
-      ...payload,
-      to_email: emailTo,
-    }
-
-    return emailjs.send(serviceId, templateId, params, publicKey)
-  }
+  }) =>
+    sendLeadEmail({
+      name: payload.nome,
+      email: payload.email,
+      phone: payload.phone,
+      company: payload.empresa,
+      title: payload.title,
+      message: payload.message,
+      source: "Formulario principal do site",
+    })
 
   const onSubmitProject = async (e: React.FormEvent) => {
     e.preventDefault()
