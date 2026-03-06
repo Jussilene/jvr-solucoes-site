@@ -40,6 +40,19 @@ function normalizeText(value?: string) {
     .replace(/\n{3,}/g, "\n\n")
 }
 
+function encodeHeaderUtf8(value: string) {
+  if (!value) return ""
+
+  // RFC 2047 encoded-word for UTF-8 mail headers.
+  const base64 = btoa(
+    encodeURIComponent(value).replace(/%([0-9A-F]{2})/g, (_, hex) =>
+      String.fromCharCode(parseInt(hex, 16)),
+    ),
+  )
+
+  return `=?UTF-8?B?${base64}?=`
+}
+
 export async function sendLeadEmail(payload: LeadPayload) {
   if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY || !EMAIL_TO) {
     throw new Error("Config EmailJS ausente no build (VITE_EMAILJS_*).")
@@ -55,10 +68,12 @@ export async function sendLeadEmail(payload: LeadPayload) {
     source: normalizeText(payload.source),
   }
 
+  const encodedSubject = encodeHeaderUtf8(normalized.title)
+
   const params = {
     title: normalized.title,
-    subject: normalized.title,
-    assunto: normalized.title,
+    subject: encodedSubject,
+    assunto: encodedSubject,
     nome: normalized.name,
     name: normalized.name,
     email: normalized.email,
