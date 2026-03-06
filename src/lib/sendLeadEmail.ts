@@ -40,17 +40,13 @@ function normalizeText(value?: string) {
     .replace(/\n{3,}/g, "\n\n")
 }
 
-function encodeHeaderUtf8(value: string) {
+function toAsciiSubject(value: string) {
   if (!value) return ""
 
-  // RFC 2047 encoded-word for UTF-8 mail headers.
-  const base64 = btoa(
-    encodeURIComponent(value).replace(/%([0-9A-F]{2})/g, (_, hex) =>
-      String.fromCharCode(parseInt(hex, 16)),
-    ),
-  )
-
-  return `=?UTF-8?B?${base64}?=`
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/ß/g, "ss")
 }
 
 export async function sendLeadEmail(payload: LeadPayload) {
@@ -68,12 +64,12 @@ export async function sendLeadEmail(payload: LeadPayload) {
     source: normalizeText(payload.source),
   }
 
-  const encodedSubject = encodeHeaderUtf8(normalized.title)
+  const safeSubject = toAsciiSubject(normalized.title)
 
   const params = {
     title: normalized.title,
-    subject: encodedSubject,
-    assunto: encodedSubject,
+    subject: safeSubject,
+    assunto: safeSubject,
     nome: normalized.name,
     name: normalized.name,
     email: normalized.email,
